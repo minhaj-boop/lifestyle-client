@@ -32,7 +32,7 @@ const ProductCard = () => {
 
     return (
         <>
-            <div className='group px-4 relative pb-4'>
+            <div className='group px-4 relative'>
                 <div className='card'
                     onMouseEnter={
                         () => setIsHovered(true)

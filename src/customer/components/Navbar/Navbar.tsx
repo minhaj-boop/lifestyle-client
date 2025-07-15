@@ -5,7 +5,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { AddShoppingCart, FavoriteBorder, Storefront } from '@mui/icons-material';
 import CategorySheet from './CategorySheet';
-import { mainCategory } from '../../../data/mainCategory';
+import { mainCategory } from '../../../data/category/mainCategory';
 
 const Navbar = () => {
     const theme = useTheme();

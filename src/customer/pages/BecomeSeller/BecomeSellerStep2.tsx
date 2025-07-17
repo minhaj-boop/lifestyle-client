@@ -5,12 +5,9 @@ import React from 'react'
 const BecomeSellerStep2 = ({ formik }: any) => {
 
     return (
-        <Box sx={{
-
-            max: "auto"
-        }}>
-            <p className='text-xl font-bold text-center pb-9'>Pickup Address</p>
-            <form onSubmit={formik.handleSubmit}>
+        <Box>
+            {/* <p className='text-xl font-bold text-center pb-5'>Pickup Address</p> */}
+            <div className='space-y-5'>
                 <Grid container spacing={4}>
                     <Grid size={{
                         xs: 12
@@ -113,7 +110,7 @@ const BecomeSellerStep2 = ({ formik }: any) => {
 
                 </Grid>
 
-            </form>
+            </div>
         </Box>
     )
 }

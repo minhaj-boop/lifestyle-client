@@ -3,9 +3,9 @@ import React from 'react'
 
 const BecomeSellerStep1 = ({ formik }: any) => {
     return (
-        <Box className=''>
-            <p className='text-xl font-bold text-center pb-9'>Contact Details</p>
-            <div className='space-y-9 '>
+        <Box>
+            {/* <p className='text-xl font-bold text-center pb-9'>Contact Details</p> */}
+            <div className='space-y-5 '>
                 <TextField
                     fullWidth
                     name="mobile"

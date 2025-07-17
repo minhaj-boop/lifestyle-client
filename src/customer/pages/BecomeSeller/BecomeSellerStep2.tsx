@@ -1,42 +1,16 @@
 import { Box, Button, Grid, TextField } from '@mui/material'
-import { useFormik } from 'formik'
 import React from 'react'
-import * as Yup from 'yup'
 
-const addressFormSchema = Yup.object().shape({
-    name: Yup.string().required("Name is required"),
-    mobile: Yup.string().required("Mobile number is required"),
-    pincode: Yup.string().required("Pincode is required"),
-    address: Yup.string().required("Address is required"),
-    city: Yup.string().required("City is required"),
-    state: Yup.string().required("State is required"),
-    locality: Yup.string().required("Locality is required"),
 
-})
+const BecomeSellerStep2 = ({ formik }: any) => {
 
-const AddressForm = () => {
-    const formik = useFormik({
-        initialValues: {
-            name: '',
-            mobile: '',
-            pincode: '',
-            address: '',
-            city: '',
-            state: '',
-            locality: ''
-        },
-        validationSchema: addressFormSchema,
-        onSubmit: (values) => {
-
-        }
-    })
     return (
         <Box sx={{
 
             max: "auto"
         }}>
-            <p className='text-xl font-bold text-center pb-5'>Coantact Details</p>
-            <>
+            <p className='text-xl font-bold text-center pb-9'>Pickup Address</p>
+            <form onSubmit={formik.handleSubmit}>
                 <Grid container spacing={4}>
                     <Grid size={{
                         xs: 12
@@ -136,20 +110,12 @@ const AddressForm = () => {
                         />
 
                     </Grid>
-                    <Grid size={{
-                        xs: 12
-                    }}>
-                        <Button fullWidth type='submit' variant='contained' sx={{
-                            py: "14px"
-                        }}>
-                            Add Address
-                        </Button>
-                    </Grid>
+
                 </Grid>
 
-            </>
+            </form>
         </Box>
     )
 }
 
-export default AddressForm
+export default BecomeSellerStep2

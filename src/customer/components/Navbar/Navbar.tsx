@@ -6,6 +6,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { AddShoppingCart, FavoriteBorder, Storefront } from '@mui/icons-material';
 import CategorySheet from './CategorySheet';
 import { mainCategory } from '../../../data/category/mainCategory';
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
     const theme = useTheme();
@@ -13,6 +14,8 @@ const Navbar = () => {
 
     const [selectedCategory, setSelectedCategory] = useState("men");
     const [showCategorySheet, setShowCategorySheet] = useState(false);
+
+    const navigate = useNavigate()
 
     return (
         <>
@@ -25,7 +28,7 @@ const Navbar = () => {
                             {!isLarge && <IconButton>
                                 <MenuIcon />
                             </IconButton>}
-                            <h1 className=' logo cursor-pointer text-lg md:text-2xl text-primary-color'>Lifestyle</h1>
+                            <h1 onClick={() => navigate("/")} className=' logo cursor-pointer text-lg md:text-2xl text-primary-color'>Lifestyle</h1>
                         </div>
                         <ul className='flex items-center font-medium text-gray-800'>
                             {mainCategory.map((item) => <li
@@ -45,7 +48,7 @@ const Navbar = () => {
                             <SearchIcon />
                         </IconButton>
                         {
-                            false ? <Button className='flex items-center gap-2'>
+                            true ? <Button onClick={() => navigate("/account/orders")} className='flex items-center gap-2'>
                                 <Avatar sx={{ width: 29, height: 29 }} src='https://cdn.pixabay.com/photo/2018/03/20/04/49/natural-3242182_1280.jpg' />
                                 <h1 className='font-semibold hidden lg:block '>Minhaj</h1>
                             </Button> : <Button variant='contained'>Login</Button>
@@ -53,10 +56,10 @@ const Navbar = () => {
                         <IconButton>
                             <FavoriteBorder sx={{ fontSize: 29 }} />
                         </IconButton>
-                        <IconButton>
+                        <IconButton onClick={() => navigate("/cart")}>
                             <AddShoppingCart className='text-gray-700' sx={{ fontSize: 29 }} />
                         </IconButton>
-                        {isLarge && <Button startIcon={<Storefront />} variant='outlined'>
+                        {isLarge && <Button onClick={() => navigate("/become-seller")} startIcon={<Storefront />} variant='outlined'>
                             Become Seller
                         </Button>}
                     </div>

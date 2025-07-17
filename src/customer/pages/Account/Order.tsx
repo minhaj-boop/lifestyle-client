@@ -4,7 +4,7 @@ import OrderItem from './OrderItem'
 const Order = () => {
     return (
         <div className='text-sm min-h-screen'>
-            <div className='pb-5 '>
+            <div className=''>
                 <h1 className='font-semibold'>All Orders</h1>
                 <p>from anytime</p>
             </div>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { use } from 'react'
 
 import { Box } from '@mui/material'
 import { menLevelTwo } from '../../../data/category/levelTwo/menLevelTwo'
@@ -9,6 +9,7 @@ import { menLevelThree } from '../../../data/category/levelThree/menLevelThree'
 import { womenLevelThree } from '../../../data/category/levelThree/womenLevelThree'
 import { electronicsLevelThree } from '../../../data/category/levelThree/electronicsLevelThree'
 import { furnitureLevelThree } from '../../../data/category/levelThree/furnitureLevelThree'
+import { useNavigate } from 'react-router-dom'
 
 const categoryTwo: { [key: string]: any[] } = {
     men: menLevelTwo,
@@ -26,6 +27,8 @@ const categoryThree: { [key: string]: any } = {
 
 const CategorySheet = ({ selectedCategory, setShowCategorySheet }: any) => {
 
+    const navigate = useNavigate();
+
     const childCategory = (category: any, parentCategoryId: any) => {
         return category.filter((child: any) => child.parentCategoryId === parentCategoryId)
     }
@@ -42,7 +45,10 @@ const CategorySheet = ({ selectedCategory, setShowCategorySheet }: any) => {
                             <ul className='space-y-3 '>
                                 {childCategory(categoryThree[selectedCategory], item.categoryId).map
                                     ((item: any) => <div>
-                                        <li onClick={() => setShowCategorySheet(false)} className='hover:text-primary-color cursor-pointer'>
+                                        <li onClick={() => {
+                                            setShowCategorySheet(false)
+                                            navigate("/products/" + item.categoryId,)
+                                        }} className='hover:text-primary-color cursor-pointer'>
                                             {item.name}
                                         </li>
                                     </div>)}

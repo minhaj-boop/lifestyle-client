@@ -11,6 +11,9 @@ import Review from './customer/pages/Review/Review';
 import Cart from './customer/pages/Cart/Cart';
 import Checkout from './customer/pages/Checkout/Checkout';
 import Account from './customer/pages/Account/Account';
+import OrderDetails from './customer/pages/Account/OrderDetails';
+import { Route, Routes } from 'react-router-dom';
+import BecomeSeller from './customer/pages/BecomeSeller/BecomeSeller';
 
 
 function App() {
@@ -18,14 +21,27 @@ function App() {
 
     <ThemeProvider theme={customTheme}>
       <div>
-        <Navbar />
+
         {/* <Home /> */}
         {/* <Product /> */}
         {/* <ProductDetails /> */}
         {/* <Review /> */}
         {/* <Cart /> */}
         {/* <Checkout /> */}
-        <Account />
+        {/* <Account /> */}
+        <Navbar />
+        <Routes >
+          <Route path="/" element={<Home />} />
+          <Route path="/products/:category" element={<Product />} />
+          <Route path="/weiews/:productId" element={<Review />} />
+          <Route path="/product-details/:categoryId/:name/:productId" element={<ProductDetails />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/account/*" element={<Account />} />
+          <Route path="/become-seller" element={<BecomeSeller />} />
+          {/* Add more routes as needed */}
+        </Routes>
+
       </div>
     </ThemeProvider>
 

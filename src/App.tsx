@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { use, useEffect } from 'react';
 import './App.css';
 
 import Navbar from './customer/components/Navbar/Navbar';
@@ -11,25 +11,35 @@ import Review from './customer/pages/Review/Review';
 import Cart from './customer/pages/Cart/Cart';
 import Checkout from './customer/pages/Checkout/Checkout';
 import Account from './customer/pages/Account/Account';
-import OrderDetails from './customer/pages/Account/OrderDetails';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import BecomeSeller from './customer/pages/BecomeSeller/BecomeSeller';
 import SellerDashboard from './seller/pages/SellerDashboard/SellerDashboard';
+import AdminDashboard from './admin/pages/AdminDashboard/AdminDashboard';
+import { fetchProducts } from './state/fetchProduct';
+import store, { useAppDispatch, useAppSelector } from './state/store';
+import { fetchSellerProfile } from './state/seller/sellerSlice';
 
 
 function App() {
+
+  const dispatch = useAppDispatch();
+  const { seller } = useAppSelector(store => store);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(fetchSellerProfile(localStorage.getItem('jwt') || ''));
+  }, [])
+
+  useEffect(() => {
+    if (seller.profile) {
+      navigate('/seller');
+    }
+  }, [seller.profile]);
+
   return (
 
     <ThemeProvider theme={customTheme}>
       <div>
-
-        {/* <Home /> */}
-        {/* <Product /> */}
-        {/* <ProductDetails /> */}
-        {/* <Review /> */}
-        {/* <Cart /> */}
-        {/* <Checkout /> */}
-        {/* <Account /> */}
         <Navbar />
         <Routes >
           <Route path="/" element={<Home />} />
@@ -41,6 +51,7 @@ function App() {
           <Route path="/become-seller" element={<BecomeSeller />} />
           <Route path="/account/*" element={<Account />} />
           <Route path="/seller/*" element={<SellerDashboard />} />
+          <Route path="/admin/*" element={<AdminDashboard />} />
           {/* Add more routes as needed */}
         </Routes>
 

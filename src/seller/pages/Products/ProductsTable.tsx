@@ -7,6 +7,11 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { useAppDispatch, useAppSelector } from '../../../state/store';
+import { fetchSellerPorducts } from '../../../state/seller/sellerPorductSlice';
+import { Product } from '../../../types/productTypes';
+import { Button, IconButton } from '@mui/material';
+import { Edit } from '@mui/icons-material';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -47,32 +52,46 @@ const rows = [
 ];
 
 const ProductsTable = () => {
+
+    const dispatch = useAppDispatch();
+    const { sellerProduct } = useAppSelector((store) => store);
+    // console.log("Seller Products:", sellerProduct.products[0].images);
+    React.useEffect(() => {
+        dispatch(fetchSellerPorducts(localStorage.getItem("jwt") || ""));
+    }, []);
+
+
+
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
                 <TableHead>
                     <TableRow>
                         <StyledTableCell>Images</StyledTableCell>
-                        <StyledTableCell align="right">Title</StyledTableCell>
-                        <StyledTableCell align="right">MRP</StyledTableCell>
-                        <StyledTableCell align="right">Selling Price</StyledTableCell>
-                        <StyledTableCell align="right">Color</StyledTableCell>
-                        <StyledTableCell align="right">Update Stock</StyledTableCell>
-                        <StyledTableCell align="right">Update</StyledTableCell>
+                        <StyledTableCell >Title</StyledTableCell>
+                        <StyledTableCell >MRP</StyledTableCell>
+                        <StyledTableCell >Selling Price</StyledTableCell>
+                        <StyledTableCell >Color</StyledTableCell>
+                        <StyledTableCell >Update Stock</StyledTableCell>
+                        <StyledTableCell >Update</StyledTableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {rows.map((row) => (
-                        <StyledTableRow key={row.name}>
+                    {sellerProduct.products?.map((item: Product) => (
+                        <StyledTableRow key={item.id}>
                             <StyledTableCell component="th" scope="row">
-                                {row.name}
+                                <div className='flex gap-1 flex-wrap'>
+                                    {item.images?.map((image) =>
+                                        <img className='w-20 rounded-md ' src={image} alt="" />
+                                    )}
+                                </div>
                             </StyledTableCell>
-                            <StyledTableCell >{row.calories}</StyledTableCell>
-                            <StyledTableCell align="right">{row.fat}</StyledTableCell>
-                            <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-                            <StyledTableCell align="right">{row.protein}</StyledTableCell>
-                            <StyledTableCell align="right">{row.fat}</StyledTableCell>
-                            <StyledTableCell align="right">{row.carbs}</StyledTableCell>
+                            <StyledTableCell >{item.title}</StyledTableCell>
+                            <StyledTableCell >{item.mrPrice}</StyledTableCell>
+                            <StyledTableCell >{item.sellingPrice}</StyledTableCell>
+                            <StyledTableCell >{item.color}</StyledTableCell>
+                            <StyledTableCell ><Button size='small'>in stock</Button></StyledTableCell>
+                            <StyledTableCell ><IconButton color='primary' size='small'><Edit /></IconButton></StyledTableCell>
                         </StyledTableRow>
                     ))}
                 </TableBody>

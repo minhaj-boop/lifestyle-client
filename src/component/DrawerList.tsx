@@ -27,7 +27,7 @@ const DrawerList = ({ menu, menu2, toggleDrawer }: DrawerListProps) => {
                 <div className='space-y-2'>
                     {
                         menu.map((item, index) => <div onClick={() => navigate(item.path)} className='pr-9 cursor-pointer' key={index}>
-                            <p className={`${item.path === location.pathname ? "bg-primary-color text-white " : "text-primary-color"} flex items-center px-5 py-3 rounded-r-full`}>
+                            <div className={`${item.path === location.pathname ? "bg-primary-color text-white " : "text-primary-color"} flex items-center px-5 py-3 rounded-r-full`}>
                                 <ListItemIcon>
                                     {
                                         item.path === location.pathname ? item.activeIcon : item.icon
@@ -35,7 +35,7 @@ const DrawerList = ({ menu, menu2, toggleDrawer }: DrawerListProps) => {
                                 </ListItemIcon>
                                 <ListItemText primary={item.name} />
 
-                            </p>
+                            </div>
                         </div>)
                     }
                 </div>
@@ -43,7 +43,7 @@ const DrawerList = ({ menu, menu2, toggleDrawer }: DrawerListProps) => {
                 <div className='space-y-2'>
                     {
                         menu2.map((item, index) => <div onClick={() => navigate(item.path)} className='pr-9 cursor-pointer' key={index}>
-                            <p className={`${item.path === location.pathname ? "bg-primary-color text-white " : "text-primary-color"} flex items-center px-5 py-3 rounded-r-full`}>
+                            <div className={`${item.path === location.pathname ? "bg-primary-color text-white " : "text-primary-color"} flex items-center px-5 py-3 rounded-r-full`}>
                                 <ListItemIcon>
                                     {
                                         item.path === location.pathname ? item.activeIcon : item.icon
@@ -51,7 +51,7 @@ const DrawerList = ({ menu, menu2, toggleDrawer }: DrawerListProps) => {
                                 </ListItemIcon>
                                 <ListItemText primary={item.name} />
 
-                            </p>
+                            </div>
                         </div>)
                     }
                 </div>

@@ -7,6 +7,7 @@ import { AddShoppingCart, FavoriteBorder, Storefront } from '@mui/icons-material
 import CategorySheet from './CategorySheet';
 import { mainCategory } from '../../../data/category/mainCategory';
 import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../../../state/store';
 
 const Navbar = () => {
     const theme = useTheme();
@@ -16,6 +17,8 @@ const Navbar = () => {
     const [showCategorySheet, setShowCategorySheet] = useState(false);
 
     const navigate = useNavigate()
+
+    const { auth } = useAppSelector(store => store)
 
     return (
         <>
@@ -48,10 +51,10 @@ const Navbar = () => {
                             <SearchIcon />
                         </IconButton>
                         {
-                            true ? <Button onClick={() => navigate("/account/orders")} className='flex items-center gap-2'>
+                            auth.user ? <Button onClick={() => navigate("/account/orders")} className='flex items-center gap-2'>
                                 <Avatar sx={{ width: 29, height: 29 }} src='https://cdn.pixabay.com/photo/2018/03/20/04/49/natural-3242182_1280.jpg' />
-                                <h1 className='font-semibold hidden lg:block '>Minhaj</h1>
-                            </Button> : <Button variant='contained'>Login</Button>
+                                <h1 className='font-semibold hidden lg:block '>{auth.user?.fullName}</h1>
+                            </Button> : <Button onClick={() => navigate("/login")} variant='contained'>Login</Button>
                         }
                         <IconButton>
                             <FavoriteBorder sx={{ fontSize: 29 }} />

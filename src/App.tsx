@@ -18,12 +18,14 @@ import AdminDashboard from './admin/pages/AdminDashboard/AdminDashboard';
 import { fetchProducts } from './state/fetchProduct';
 import store, { useAppDispatch, useAppSelector } from './state/store';
 import { fetchSellerProfile } from './state/seller/sellerSlice';
+import Auth from './customer/pages/Auth/Auth';
+import { fetchUserProfile } from './state/authSlice';
 
 
 function App() {
 
   const dispatch = useAppDispatch();
-  const { seller } = useAppSelector(store => store);
+  const { seller, auth } = useAppSelector(store => store);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -36,6 +38,10 @@ function App() {
     }
   }, [seller.profile]);
 
+  useEffect(() => {
+    dispatch(fetchUserProfile({ jwt: auth.jwt || localStorage.getItem("jwt") }))
+  }, [auth.jwt])
+
   return (
 
     <ThemeProvider theme={customTheme}>
@@ -43,6 +49,7 @@ function App() {
         <Navbar />
         <Routes >
           <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Auth />} />
           <Route path="/products/:category" element={<Product />} />
           <Route path="/weiews/:productId" element={<Review />} />
           <Route path="/product-details/:categoryId/:name/:productId" element={<ProductDetails />} />

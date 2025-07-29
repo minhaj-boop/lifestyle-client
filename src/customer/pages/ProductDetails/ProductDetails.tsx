@@ -1,10 +1,13 @@
-import React, { useState } from 'react'
+import React, { use, useEffect, useState } from 'react'
 import StarIcon from '@mui/icons-material/Star';
 import { teal } from '@mui/material/colors';
 import { Button, Divider } from '@mui/material';
 import { Add, AddShoppingCart, FavoriteBorder, LocalShipping, Remove, Shield, Wallet, WorkspacePremium } from '@mui/icons-material';
 import SimilarProduct from './SimilarProduct';
 import ReviewCard from '../Review/ReviewCard';
+import { useAppDispatch, useAppSelector } from '../../../state/store';
+import { useParams } from 'react-router-dom';
+import { fetchProductById } from '../../../state/customer/productSlice';
 const dummy = [
   "https://www.aarong.com/media/catalog/product/0/5/0550000148498_1_1.jpg?optimize=high&bg-color=255,255,255&fit=bounds&height=667&width=500&canvas=500:667&dpr=2%202x",
   "https://www.aarong.com/media/catalog/product/0/5/0550000148498_2_1.jpg?optimize=high&bg-color=255,255,255&fit=bounds&height=667&width=500&canvas=500:667&dpr=2%202x",
@@ -16,6 +19,18 @@ const dummy = [
 const ProductDetails = () => {
 
   const [quantity, setQuantity] = useState(1)
+  const dispatch = useAppDispatch()
+  const { productId } = useParams()
+  const { product } = useAppSelector(store => store)
+  const [activeImage, setActiveImage] = useState(0)
+
+  useEffect(() => {
+    dispatch(fetchProductById(Number(productId)))
+  }, [])
+
+  const handleActiveImage = (index: number) => {
+    setActiveImage(index)
+  }
 
   return (
     <div className='px-5 lg:px-20 pt-10 '>
@@ -24,18 +39,18 @@ const ProductDetails = () => {
         <section className="flex flex-col lg:flex-row gap-5">
           <div className='w-full lg:w-[15%] flex flex-wrap lg:flex-col gap-3'>
             {
-              dummy.map((item) => <img className='lg:w-full w-[50px] cursor-pointer rounded-md' src={item} alt=''></img>)
+              product.product?.images.map((item, index) => <img onClick={() => handleActiveImage(index)} className='lg:w-full w-[50px] cursor-pointer rounded-md' src={item} alt=''></img>)
             }
           </div>
           <div className='w-full lg:w-[85%]'>
-            <img className='w-full rounded-md object-cover' src="https://www.aarong.com/media/catalog/product/0/5/0550000148498_3.jpg" alt="" />
+            <img className='w-full rounded-md object-cover' src={product.product?.images[activeImage]} alt="" />
           </div>
         </section>
         <section>
           <h1 className='font-bold text-lg text-primary-color'>
-            Minu Clothing
+            {product.product?.seller?.businessDetails.businessName}
           </h1>
-          <p className=' text-gray-500 font-semibold'>men black shirt</p>
+          <p className=' text-gray-500 font-semibold'>{product.product?.title}</p>
           <div className='flex justify-between items-center py-2 border w-[180px] px-3 mt-5'>
             <div className='flex gap-1 items-center'>
               <span>4</span>
@@ -53,13 +68,13 @@ const ProductDetails = () => {
           <div className=''>
             <div className='price flex items-center gap-3 mt-5 text-xl'>
               <span className='font-semibold text-gray-800'>
-                BDT 400
+                BDT {product.product?.sellingPrice}
               </span>
               <span className="line-through text-gray-400">
-                BDT 999
+                BDT {product.product?.mrPrice}
               </span>
               <span className="text-primary-color font-semibold">
-                60%
+                {product.product?.discountPercent}%
               </span>
             </div>
             <p className='text-sm'>Inclusive of all tax. Free shipping on above BDT 5000 shopping</p>
@@ -123,7 +138,7 @@ const ProductDetails = () => {
             </Button>
           </div>
           <div className='mt-5 text-gray-500'>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit tenetur culpa placeat perferendis, libero at dolorum nemo dolores dolor, aliquid modi fugit earum ut eaque distinctio eum ipsum exercitationem quae ducimus quis eos porro. Enim ducimus suscipit, harum porro maiores officia, cupiditate atque laboriosam earum deleniti doloremque! Totam, architecto accusamus?</p>
+            <p>{product.product?.description}</p>
           </div>
           <div className='mt-12 space-y-5'>
             <ReviewCard />

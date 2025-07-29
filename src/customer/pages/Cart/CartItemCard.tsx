@@ -1,27 +1,26 @@
 import { Add, Close, Remove } from '@mui/icons-material'
 import { Button, Divider, IconButton } from '@mui/material'
-import React, { useState } from 'react'
+import { CartItems } from '../../../types/cartTypes'
 
-const CartItem = () => {
+const CartItemCard = ({ item }: { item: CartItems }) => {
     // const =[quantity, setQuantity] = useState(1);
 
     const handleUpdateQuantity = () => {
 
     }
 
-
     return (
         <div className='border rounded-md relative'>
             <div className='p-5 flex gap-3'>
                 <div>
-                    <img className='w-[90px] rounded-md' src="https://www.aarong.com/media/wysiwyg/D-monsoon-microsite-megamenu-08-07-2025.png" alt="" />
+                    <img className='w-[90px] rounded-md' src={item.product?.images[1]} alt="" />
                 </div>
                 <div className='space-y-2'>
-                    <h1 className='font-semibold text-lg'> Minu Clothing</h1>
-                    <p className='text-gray-600 font-medium text-sm'>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                    <p className='text-gray-400'> <strong>Harum</strong> nisi dolore nulla.</p>
+                    <h1 className='font-semibold text-lg'> {item.product?.seller?.businessDetails?.businessName}</h1>
+                    <p className='text-gray-600 font-medium text-sm'>{item.product?.title}</p>
+                    <p className='text-gray-400'> <strong>Harum:</strong> nisi dolore nulla.</p>
                     <p className='text-sm '>Quisquam deleniti et commodi minima blanditiis impedit voluptatum?</p>
-                    <p className='text-sm text-gray-500'><strong>quantity : </strong>5</p>
+                    <p className='text-sm text-gray-500'><strong>quantity : </strong>{item.quantity}</p>
                 </div>
             </div>
             <Divider />
@@ -38,7 +37,7 @@ const CartItem = () => {
                     </div>
                 </div>
                 <div className='pr-5'>
-                    <p className='text-gray-700 font-medium'>999</p>
+                    <p className='text-gray-700 font-medium'>{item.sellignPrice}</p>
                 </div>
             </div>
             <div className='absolute top-1 right-1'>
@@ -50,4 +49,4 @@ const CartItem = () => {
     )
 }
 
-export default CartItem
+export default CartItemCard

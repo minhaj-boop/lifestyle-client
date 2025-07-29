@@ -14,7 +14,12 @@ export interface BankDetails {
 }
 
 export interface BusinessDetails {
-    buseinessName: string;
+    businessName: string;
+    businessEmail: string;
+    businessMobile: string;
+    businessAddress: string;
+    logo: string;
+    banner: string;
 }
 
 export interface Seller {
@@ -23,7 +28,7 @@ export interface Seller {
     otp: string;
     gstin: string;
     pickupAddress: PickupAddress;
-    banklDetails: BankDetails;
+    bankDetails: BankDetails;
     sellerName: string;
     email: string;
     businessDetails: BusinessDetails;

@@ -16,6 +16,8 @@ import { furnitureLevelThree } from '../../../data/category/levelThree/furniture
 import { electronicsLevelThree } from '../../../data/category/levelThree/electronicsLevelThree'
 import { mainCategory } from '../../../data/category/mainCategory'
 import { useState } from 'react'
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert, { AlertColor } from '@mui/material/Alert';
 
 
 const getLevelTwo = (category: string) => {
@@ -42,7 +44,15 @@ const getLevelThree = (category: string) => {
 const AddProducts = () => {
 
     const [uploadImage, setUploadingImage] = useState(false);
-    // const [snackbar, setOpenSnackbar] = useState(false)
+
+
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarSeverity, setSnackbarSeverity] = useState<AlertColor>('success');
+
+    const handleSnackbarClose = () => {
+        setSnackbarOpen(false);
+    };
 
 
     const dispatch = useAppDispatch()
@@ -61,10 +71,27 @@ const AddProducts = () => {
             category3: '',
             sizes: ""
         },
-        onSubmit: (values) => {
+        onSubmit: async (values) => {
             console.log(values);
-            dispatch(createProduct({ request: values, jwt: localStorage.getItem('jwt') || '' }))
-            formik.resetForm();
+            // dispatch(createProduct({ request: values, jwt: localStorage.getItem('jwt') || '' }))
+            // formik.resetForm();
+            try {
+                const res = await dispatch(createProduct({ request: values, jwt: localStorage.getItem('jwt') || '' }));
+
+                // Optional: check `res.meta.requestStatus === 'fulfilled'` for Redux Toolkit
+                if (res.meta?.requestStatus === 'fulfilled') {
+                    setSnackbarMessage('Product added successfully!');
+                    setSnackbarSeverity('success');
+                    setSnackbarOpen(true);
+                    formik.resetForm();
+                } else {
+                    throw new Error('Something went wrong');
+                }
+            } catch (error) {
+                setSnackbarMessage('Failed to add product.');
+                setSnackbarSeverity('error');
+                setSnackbarOpen(true);
+            }
         }
     })
 
@@ -307,7 +334,7 @@ const AddProducts = () => {
                     </Grid>
                     <Grid size={{ xs: 12, md: 4, lg: 3 }}>
                         <FormControl fullWidth required>
-                            <InputLabel id="category-label">Category</InputLabel>
+                            <InputLabel id="category-label">Main Category</InputLabel>
                             <Select
                                 labelId="category-label"
                                 id="category"
@@ -381,6 +408,16 @@ const AddProducts = () => {
                     </Button>
                 </Grid>
             </form>
+            <Snackbar
+                open={snackbarOpen}
+                autoHideDuration={4000}
+                onClose={handleSnackbarClose}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            >
+                <MuiAlert onClose={handleSnackbarClose} severity={snackbarSeverity} sx={{ width: '100%' }} elevation={6} variant="filled">
+                    {snackbarMessage}
+                </MuiAlert>
+            </Snackbar>
         </div>
     )
 }

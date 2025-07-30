@@ -23,7 +23,6 @@ const Cart = () => {
 
     useEffect(() => {
         dispatch(fetchUserCart(localStorage.getItem("jwt") || ""))
-        console.log("Cart:", cart)
     }, [])
 
     return (

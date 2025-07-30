@@ -2,11 +2,13 @@ import { Box, Button, Grid, TextField } from '@mui/material'
 import { useFormik } from 'formik'
 import React from 'react'
 import * as Yup from 'yup'
+import { useAppDispatch } from '../../../state/store'
+import { createOrder } from '../../../state/customer/orderSlice'
 
 const addressFormSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),
     mobile: Yup.string().required("Mobile number is required"),
-    pincode: Yup.string().required("Pincode is required"),
+    pinCode: Yup.string().required("Pincode is required"),
     address: Yup.string().required("Address is required"),
     city: Yup.string().required("City is required"),
     state: Yup.string().required("State is required"),
@@ -14,12 +16,15 @@ const addressFormSchema = Yup.object().shape({
 
 })
 
-const AddressForm = () => {
+const AddressForm = ({ paymentGateway }: any) => {
+
+    const dispatch = useAppDispatch()
+
     const formik = useFormik({
         initialValues: {
             name: '',
             mobile: '',
-            pincode: '',
+            pinCode: '',
             address: '',
             city: '',
             state: '',
@@ -27,7 +32,12 @@ const AddressForm = () => {
         },
         validationSchema: addressFormSchema,
         onSubmit: (values) => {
-
+            console.log(values);
+            dispatch(createOrder({
+                address: values,
+                jwt: localStorage.getItem("jwt") || "",
+                paymentGateway: paymentGateway,
+            }))
         }
     })
     return (
@@ -36,7 +46,7 @@ const AddressForm = () => {
             max: "auto"
         }}>
             <p className='text-xl font-bold text-center pb-5'>Coantact Details</p>
-            <>
+            <form onSubmit={formik.handleSubmit}>
                 <Grid container spacing={4}>
                     <Grid size={{
                         xs: 12
@@ -71,12 +81,12 @@ const AddressForm = () => {
                     }}>
                         <TextField
                             fullWidth
-                            name="pincode"
+                            name="pinCode"
                             label="Pincode"
-                            value={formik.values.pincode}
+                            value={formik.values.pinCode}
                             onChange={formik.handleChange}
-                            error={formik.touched.pincode && Boolean(formik.errors.pincode)}
-                            helperText={formik.touched.pincode && formik.errors.pincode}
+                            error={formik.touched.pinCode && Boolean(formik.errors.pinCode)}
+                            helperText={formik.touched.pinCode && formik.errors.pinCode}
                         />
 
                     </Grid>
@@ -147,7 +157,7 @@ const AddressForm = () => {
                     </Grid>
                 </Grid>
 
-            </>
+            </form>
         </Box>
     )
 }

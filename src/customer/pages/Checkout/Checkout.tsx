@@ -34,7 +34,7 @@ const Checkout = () => {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const [paymentGateway, setPaymentGateway] = useState("stripe")
+    const [paymentGateway, setPaymentGateway] = useState("STRIPE")
 
     const handlePaymentChange = (event: any) => {
         setPaymentGateway(event.target.value)
@@ -108,7 +108,7 @@ const Checkout = () => {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <AddressForm />
+                    <AddressForm paymentGateway={paymentGateway} />
                 </Box>
             </Modal>
         </>

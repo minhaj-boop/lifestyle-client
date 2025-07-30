@@ -1,12 +1,19 @@
 import { Add, Close, Remove } from '@mui/icons-material'
 import { Button, Divider, IconButton } from '@mui/material'
 import { CartItems } from '../../../types/cartTypes'
+import { useAppDispatch } from '../../../state/store'
+import { updateCartItem } from '../../../state/customer/cartSlice'
 
 const CartItemCard = ({ item }: { item: CartItems }) => {
     // const =[quantity, setQuantity] = useState(1);
+    const dispatch = useAppDispatch()
 
-    const handleUpdateQuantity = () => {
-
+    const handleUpdateQuantity = (value: number) => () => {
+        dispatch(updateCartItem({
+            jwt: localStorage.getItem("jwt"),
+            cartItemId: item.id,
+            cartItem: { quantity: item.quantity + value }
+        }))
     }
 
     return (
@@ -27,11 +34,11 @@ const CartItemCard = ({ item }: { item: CartItems }) => {
             <div className='flex justify-between items-center'>
                 <div className='px-5 py-2 flex justify-between items-center'>
                     <div className='flex items-center gap-2 w-[140px] justify-between'>
-                        <Button onClick={handleUpdateQuantity} disabled={true} >
+                        <Button onClick={handleUpdateQuantity(-1)} disabled={item.quantity === 0 ? true : false} >
                             <Remove />
                         </Button>
-                        <span>{5}</span>
-                        <Button onClick={handleUpdateQuantity}>
+                        <span>{item.quantity}</span>
+                        <Button onClick={handleUpdateQuantity(1)}>
                             <Add />
                         </Button>
                     </div>

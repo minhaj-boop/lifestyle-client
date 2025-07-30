@@ -7,8 +7,6 @@ const UserDetails = () => {
 
     const { auth } = useAppSelector(store => store)
 
-
-
     return (
         <div className='flex justify-center py-10'>
             <div className='w-full lg:w-[70%]'>

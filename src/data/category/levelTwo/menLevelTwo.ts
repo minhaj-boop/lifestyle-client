@@ -53,11 +53,11 @@ export const menLevelTwo = [
       parentCategoryId: "men",
       level: 2
     },
-    {
-      name: "Ethnic Wear",
-      categoryId: "men_ethnic_wear",
-      parentCategoryId: "men",
-      level: 2
-    },
+    // {
+    //   name: "Ethnic Wear",
+    //   categoryId: "men_ethnic_wear",
+    //   parentCategoryId: "men",
+    //   level: 2
+    // },
   ];
   

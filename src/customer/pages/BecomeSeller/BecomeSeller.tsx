@@ -17,7 +17,7 @@ const BecomeSeller = () => {
                     !isLoggedIn ? <SellerAccountForm /> : <SellerLoginForm />
                 }
                 <div className='mt-10 space-y-2 '>
-                    <h1 className='text-center text-sm font-medium'>Have account</h1>
+                    {!isLoggedIn ? <h1 className='text-center text-sm font-medium text-primary-color'>Have an account ?</h1> : <h1 className='text-center text-sm font-medium text-primary-color'>Don't have an account ?</h1>}
                     <Button onClick={handleShowPage} variant='outlined' fullWidth sx={{
                         py: "11px",
 
@@ -29,7 +29,7 @@ const BecomeSeller = () => {
             <section className='hidden md:col-span-1 lg:col-span-2 md:flex justify-center items-center'>
                 <div className="lg:w-[70%] px-5 space-y-10">
                     <div className='space-y-2 font-bold text-center'>
-                        <p className='text-2xl'>Jon the market place.</p>
+                        <p className='text-2xl'>Join the market place.</p>
                         <p className='text-lg text-primary-color'>Boost your sale today</p>
                     </div>
                     <img src="https://res.cloudinary.com/dioqmvlql/image/upload/v1752747269/23938705_6859563_t2z5ur.jpg" alt="" />

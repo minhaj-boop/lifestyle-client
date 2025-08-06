@@ -15,12 +15,16 @@ import { Route, Routes, useNavigate } from 'react-router-dom';
 import BecomeSeller from './customer/pages/BecomeSeller/BecomeSeller';
 import SellerDashboard from './seller/pages/SellerDashboard/SellerDashboard';
 import AdminDashboard from './admin/pages/AdminDashboard/AdminDashboard';
-import { fetchProducts } from './state/fetchProduct';
-import store, { useAppDispatch, useAppSelector } from './state/store';
+// import { fetchProducts } from './state/fetchProduct';
+import { useAppDispatch, useAppSelector } from './state/store';
 import { fetchSellerProfile } from './state/seller/sellerSlice';
 import Auth from './customer/pages/Auth/Auth';
 import { fetchUserProfile } from './state/authSlice';
 import PaymentSuccess from './customer/pages/PaymentSuccess/PaymentSuccess';
+import Wishlist from './customer/pages/Wishlist/Wishlist';
+import { createHomeCategories } from './state/customer/customerSlice';
+import { homeCategories } from './data/homeCategories';
+import ProtectedSellerRoute from './routes/ProtectedSellerRoute';
 
 
 function App() {
@@ -31,13 +35,14 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchSellerProfile(localStorage.getItem('jwt') || ''));
+    dispatch(createHomeCategories(homeCategories))
   }, [])
 
-  useEffect(() => {
-    if (seller.profile) {
-      navigate('/seller');
-    }
-  }, [seller.profile]);
+  // useEffect(() => {
+  //   if (seller.profile) {
+  //     navigate('/seller');
+  //   }
+  // }, [seller.profile]);
 
   useEffect(() => {
     dispatch(fetchUserProfile({ jwt: auth.jwt || localStorage.getItem("jwt") }))
@@ -46,7 +51,7 @@ function App() {
   return (
 
     <ThemeProvider theme={customTheme}>
-      <div>
+      <>
         <Navbar />
         <Routes >
           <Route path="/" element={<Home />} />
@@ -55,16 +60,16 @@ function App() {
           <Route path="/weiews/:productId" element={<Review />} />
           <Route path="/product-details/:categoryId/:name/:productId" element={<ProductDetails />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/payment-success/:orderId" element={<PaymentSuccess />} />
           <Route path="/become-seller" element={<BecomeSeller />} />
           <Route path="/account/*" element={<Account />} />
-          <Route path="/seller/*" element={<SellerDashboard />} />
+          <Route path="/seller/*" element={<ProtectedSellerRoute><SellerDashboard /></ProtectedSellerRoute>} />
           <Route path="/admin/*" element={<AdminDashboard />} />
           {/* Add more routes as needed */}
         </Routes>
-
-      </div>
+      </>
     </ThemeProvider>
 
   );

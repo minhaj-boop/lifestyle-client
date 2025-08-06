@@ -3,9 +3,10 @@ import React from 'react'
 import DealCard from './DealCard'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useAppSelector } from '../../../../state/store';
 
 const Deal = () => {
-
+    const { customer } = useAppSelector(store => store);
     const settings = {
         dots: true,
         infinite: true,

@@ -16,11 +16,11 @@ export const signin = createAsyncThunk<any,any>("/auth/signin",
     async (loginRequest, {rejectWithValue}) => {
        try {
            const response = await api.post("/auth/sign-in",loginRequest) 
-           console.log("Login otp response:", response.data);
+           console.log("signing response:", response.data);
            localStorage.setItem("jwt", response.data.token);
            return response.data.token;
        } catch (error) {
-           console.error("Error sending otp:", error); 
+           console.error("Error signing in:", error); 
        }
 })
 
@@ -28,11 +28,11 @@ export const signup = createAsyncThunk<any,any>("/auth/signup",
     async (signupRequest, {rejectWithValue}) => {
        try {
            const response = await api.post("/auth/signup",signupRequest) 
-           console.log("Login otp response:", response.data);
+           console.log("signup response:", response.data);
            localStorage.setItem("jwt", response.data.token);
            return response.data.token;
        } catch (error) {
-           console.error("Error sending otp:", error); 
+           console.error("Error signing up:", error); 
        }
 })
 

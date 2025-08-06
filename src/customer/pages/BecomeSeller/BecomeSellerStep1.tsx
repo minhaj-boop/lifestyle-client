@@ -17,12 +17,12 @@ const BecomeSellerStep1 = ({ formik }: any) => {
                 />
                 <TextField
                     fullWidth
-                    name="GSTIN"
+                    name="gstin"
                     label="GSTIN"
-                    value={formik.values.GSTIN}
+                    value={formik.values.gstin}
                     onChange={formik.handleChange}
-                    error={formik.touched.GSTIN && Boolean(formik.errors.GSTIN)}
-                    helperText={formik.touched.GSTIN && formik.errors.GSTIN}
+                    error={formik.touched.gstin && Boolean(formik.errors.gstin)}
+                    helperText={formik.touched.gstin && formik.errors.gstin}
                 />
 
             </div>

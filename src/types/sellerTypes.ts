@@ -25,7 +25,7 @@ export interface BusinessDetails {
 export interface Seller {
     id?:number;
     mobile: string;
-    otp: string;
+    // otp: string;
     gstin: string;
     pickupAddress: PickupAddress;
     bankDetails: BankDetails;
@@ -33,7 +33,7 @@ export interface Seller {
     email: string;
     businessDetails: BusinessDetails;
     password: string;
-    accountStatus: string;
+    accountStatus?: string;
 }
 
 export interface SellerReport {

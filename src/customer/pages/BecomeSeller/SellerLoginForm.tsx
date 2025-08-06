@@ -2,21 +2,36 @@ import { Button, TextField } from '@mui/material'
 import { useFormik } from 'formik'
 import React from 'react'
 import { useAppDispatch } from '../../../state/store'
-import { sendLoginSignupOtp, signin } from '../../../state/authSlice'
+import { sendLoginSignupOtp } from '../../../state/authSlice'
 import { sellerLogin } from '../../../state/seller/sellerAuthSlice'
+import { useNavigate } from 'react-router-dom'
 
 const SellerLoginForm = () => {
 
-    const dispatch = useAppDispatch()
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     const formik = useFormik({
         initialValues: {
             email: '',
             otp: ''
         },
-        onSubmit: (values) => {
-            console.log("Form Submitted", values)
-            dispatch(sellerLogin(values))
+        onSubmit: async (values) => {
+            try {
+                console.log("Form Submitted", values)
+                const resultAction = await dispatch(sellerLogin(values));
+                if (sellerLogin.fulfilled.match(resultAction)) {
+                    const { role } = resultAction.payload;
+                    if (role === "ROLE_SELLER") {
+                        navigate("/seller")
+                    }
+                } else {
+                    // handle error (e.g., show toast)
+                    console.error("Login failed:", resultAction.payload);
+                }
+            } catch (error) {
+
+            }
         }
     })
 
@@ -45,7 +60,7 @@ const SellerLoginForm = () => {
                     <TextField
                         fullWidth
                         name="otp"
-                        label="Otp"
+                        label="OTP"
                         value={formik.values.otp}
                         onChange={formik.handleChange}
                         // onBlur={formik.hanldeBlur}

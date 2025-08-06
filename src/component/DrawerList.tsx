@@ -37,9 +37,6 @@ const DrawerList = ({ menu, menu2, toggleDrawer }: DrawerListProps) => {
                         menu.map((item, index) => <div onClick={
                             () => {
                                 navigate(item.path);
-                                if (item.path === "/") {
-                                    handleLogout();
-                                }
                             }
                         } className='pr-9 cursor-pointer' key={index}>
                             <div className={`${item.path === location.pathname ? "bg-primary-color text-white " : "text-primary-color"} flex items-center px-5 py-3 rounded-r-full`}>
@@ -57,7 +54,13 @@ const DrawerList = ({ menu, menu2, toggleDrawer }: DrawerListProps) => {
                 <Divider />
                 <div className='space-y-2'>
                     {
-                        menu2.map((item, index) => <div onClick={() => navigate(item.path)} className='pr-9 cursor-pointer' key={index}>
+                        menu2.map((item, index) => <div onClick={() => {
+                            navigate(item.path)
+                            if (item.path === "/") {
+                                handleLogout();
+                            }
+                        }
+                        } className='pr-9 cursor-pointer' key={index}>
                             <div className={`${item.path === location.pathname ? "bg-primary-color text-white " : "text-primary-color"} flex items-center px-5 py-3 rounded-r-full`}>
                                 <ListItemIcon>
                                     {

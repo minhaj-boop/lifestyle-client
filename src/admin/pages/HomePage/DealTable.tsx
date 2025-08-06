@@ -9,6 +9,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { IconButton } from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
+import { useAppDispatch, useAppSelector } from '../../../state/store';
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -50,6 +51,10 @@ const rows = [
 ];
 
 const DealTable = () => {
+
+    const dispatch = useAppDispatch()
+    const { deal } = useAppSelector(store => store)
+
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 700 }} aria-label="customized table">

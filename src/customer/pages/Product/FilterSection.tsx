@@ -73,8 +73,6 @@ const FilterSection = () => {
                                     </p>
                                 </div>
                             } />)}
-
-
                         </RadioGroup>
                     </FormControl>
                     <div>
@@ -140,8 +138,6 @@ const FilterSection = () => {
                                     label={item.name}
                                 />
                             )}
-
-
                         </RadioGroup>
                     </FormControl>
                 </section>

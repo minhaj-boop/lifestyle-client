@@ -82,7 +82,7 @@ const ProductsTable = () => {
                             <StyledTableCell component="th" scope="row">
                                 <div className='flex gap-1 flex-wrap'>
                                     {item.images?.map((image) =>
-                                        <img className='w-20 rounded-md ' src={image} alt="" />
+                                        <img key={image} className='w-20 rounded-md ' src={image} alt="" />
                                     )}
                                 </div>
                             </StyledTableCell>

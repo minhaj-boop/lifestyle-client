@@ -1,8 +1,14 @@
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material'
 import { useFormik } from 'formik'
 import React from 'react'
+import { useAppDispatch, useAppSelector } from '../../../state/store'
+import { createDeal } from '../../../state/admin/dealSlice'
 
 const CreateDealForm = () => {
+
+    const dispatch = useAppDispatch()
+    const { customer } = useAppSelector(store => store)
+
     const formik = useFormik({
         initialValues: {
             disount: 0,
@@ -10,6 +16,13 @@ const CreateDealForm = () => {
         },
         onSubmit: (values) => {
             console.log(values)
+            const reqData = {
+                discount: values.disount,
+                category: {
+                    id: values.catgory
+                }
+            }
+            dispatch(createDeal(reqData))
         }
     })
     return (

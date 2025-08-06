@@ -1,8 +1,8 @@
-import { Avatar, Box, Button, IconButton, useMediaQuery, useTheme } from '@mui/material'
-import React, { useState } from 'react'
+import { Avatar, Box, Button, Drawer, IconButton, useMediaQuery, useTheme } from '@mui/material'
+import { useState } from 'react'
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+// import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { AddShoppingCart, FavoriteBorder, Storefront } from '@mui/icons-material';
 import CategorySheet from './CategorySheet';
 import { mainCategory } from '../../../data/category/mainCategory';
@@ -15,26 +15,37 @@ const Navbar = () => {
 
     const [selectedCategory, setSelectedCategory] = useState("men");
     const [showCategorySheet, setShowCategorySheet] = useState(false);
+    const [drawerOpen, setDrawerOpen] = useState(false);
 
     const navigate = useNavigate()
 
     const { auth } = useAppSelector(store => store)
+    const { seller } = useAppSelector(store => store)
+
+    const toggleDrawer = (open: boolean) => () => {
+        setDrawerOpen(open);
+    };
 
     return (
         <>
-            <Box className="sticky top-0 left-0 right-0 bg-white " sx={{
-                zIndex: 2
+            <Box className="sticky top-0 left-0 right-0 bg-white border-b" sx={{
+                zIndex: 1000
             }}>
-                <div className='flex items-center justify-between px-5 lg:px-20 h-[70px] border-b'>
-                    <div className='flex items-center gap-9'>
+                <div className='flex items-center justify-between px-4 lg:px-20 h-[70px]'>
+                    {/* Left Section */}
+                    <div className='flex items-center gap-4 lg:gap-9'>
+                        {/* Logo & Menu Icon */}
                         <div className='flex items-center gap-2'>
-                            {!isLarge && <IconButton>
+                            {!isLarge && <IconButton onClick={toggleDrawer(true)}>
                                 <MenuIcon />
                             </IconButton>}
-                            <h1 onClick={() => navigate("/")} className=' logo cursor-pointer text-lg md:text-2xl text-primary-color'>Lifestyle</h1>
+                            <h1 onClick={() => navigate("/")} className=' logo cursor-pointer text-lg sm:text-xl md:text-2xl text-primary-color'>Lifestyle</h1>
                         </div>
-                        <ul className='flex items-center font-medium text-gray-800'>
+
+                        {/* Desktop Navigation */}
+                        <ul className='hidden lg:flex items-center font-medium text-gray-800'>
                             {mainCategory.map((item) => <li
+                                key={item.categoryId}
                                 onMouseLeave={() => {
                                     setShowCategorySheet(false)
                                 }}
@@ -46,37 +57,188 @@ const Navbar = () => {
 
                         </ul>
                     </div>
-                    <div className='flex gap-1 lg:gap-6 items-center '>
+
+                    {/* Right Section */}
+                    <div className='flex gap-2 sm:gap-3 lg:gap-6 items-center '>
                         <IconButton>
                             <SearchIcon />
                         </IconButton>
+
+                        {/* Auth / Seller / Login Button */}
                         {
-                            auth.user ? <Button onClick={() => navigate("/account/orders")} className='flex items-center gap-2'>
-                                <Avatar sx={{ width: 29, height: 29 }} src='https://cdn.pixabay.com/photo/2018/03/20/04/49/natural-3242182_1280.jpg' />
-                                <h1 className='font-semibold hidden lg:block '>{auth.user?.fullName}</h1>
-                            </Button> : <Button onClick={() => navigate("/login")} variant='contained'>Login</Button>
+                            auth.user ? (
+                                <Button onClick={() => navigate("/account/orders")} className='flex items-center gap-2'>
+                                    <Avatar sx={{ width: 29, height: 29 }} src='https://cdn.pixabay.com/photo/2018/03/20/04/49/natural-3242182_1280.jpg' />
+                                    <h1 className='font-semibold hidden lg:block '>{auth.user?.fullName}</h1>
+                                </Button>
+                            ) : seller.profile ? (
+                                <Button onClick={() => navigate("/seller")} className='flex items-center gap-2'>
+                                    <Avatar sx={{ width: 29, height: 29 }} src='https://cdn.pixabay.com/photo/2018/03/20/04/49/natural-3242182_1280.jpg' />
+                                    <h1 className='font-semibold hidden lg:block '>{seller.profile.businessDetails.businessName}</h1>
+                                </Button>
+                            ) : (
+                                <Button onClick={() => navigate("/login")} variant='contained'>Login</Button>
+                            )
                         }
-                        <IconButton>
-                            <FavoriteBorder sx={{ fontSize: 29 }} />
+
+                        {/* Wishlist & Cart */}
+                        <IconButton onClick={() => navigate("/wishlist")}>
+                            <FavoriteBorder className='text-gray-700' sx={{ fontSize: 26 }} />
                         </IconButton>
                         <IconButton onClick={() => navigate("/cart")}>
-                            <AddShoppingCart className='text-gray-700' sx={{ fontSize: 29 }} />
+                            <AddShoppingCart className='text-gray-700' sx={{ fontSize: 26 }} />
                         </IconButton>
-                        {isLarge && <Button onClick={() => navigate("/become-seller")} startIcon={<Storefront />} variant='outlined'>
+
+                        {/* Become Seller */}
+                        {isLarge && !seller.profile && <Button onClick={() => navigate("/become-seller")} startIcon={<Storefront />} variant='outlined'>
                             Become Seller
                         </Button>}
                     </div>
                 </div>
+
+                {/* Hover Category Sheet (desktop only) */}
                 {showCategorySheet && <div onMouseLeave={() => {
                     setShowCategorySheet(false)
                 }}
                     onMouseEnter={() => {
                         setShowCategorySheet(true);
                     }}
-                    className='categorySheet absolute top-[4.41rem] left-20 right-20 border'>
+                    className='categorySheet absolute top-[4.41rem] left-0 right-0 lg:left-20 lg:right-20 border bg-white shadow-sm'>
                     <CategorySheet selectedCategory={selectedCategory} setShowCategorySheet={setShowCategorySheet} />
                 </div>}
             </Box>
+            {/* Drawer for Mobile Navigation */}
+            <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
+                <div className="w-[280px] p-4 space-y-4 overflow-y-auto h-full">
+                    <h2 className="text-lg font-bold mb-4">Categories</h2>
+
+                    {mainCategory.map((item) => (
+                        <div
+                            key={item.categoryId}
+                            className={`cursor-pointer py-2 px-2 rounded ${selectedCategory === item.categoryId ? 'bg-gray-200 font-semibold' : 'hover:bg-gray-100'}`}
+                            onClick={() =>
+                                setSelectedCategory((prev) =>
+                                    prev === item.categoryId ? "" : item.categoryId
+                                )
+                            }
+                        >
+                            {item.name}
+                        </div>
+                    ))}
+
+                    {/* Show CategorySheet below selected category */}
+                    {selectedCategory && (
+                        <CategorySheet
+                            selectedCategory={selectedCategory}
+                            setShowCategorySheet={() => { }}
+                        />
+                    )}
+
+                    {!seller.profile && (
+                        <Button
+                            fullWidth
+                            onClick={() => {
+                                setDrawerOpen(false);
+                                navigate("/become-seller");
+                            }}
+                            startIcon={<Storefront />}
+                            variant="outlined"
+                        >
+                            Become Seller
+                        </Button>
+                    )}
+                </div>
+            </Drawer>
+
+            {/* <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
+                <div className="w-[250px] p-4 space-y-4">
+                    <h2 className="text-lg font-bold mb-4">Categories</h2>
+                    {mainCategory.map((item) => (
+                        <div
+                            key={item.categoryId}
+                            onClick={() => setSelectedCategory(item.categoryId)}
+                            className={`cursor-pointer py-2 px-2 rounded ${selectedCategory === item.categoryId ? 'bg-gray-200 font-semibold' : 'hover:bg-gray-100'}`}
+                        >
+                            {item.name}
+                        </div>
+                    ))}
+
+                    <CategorySheet selectedCategory={selectedCategory} setShowCategorySheet={() => { }} />
+
+                    {!seller.profile && (
+                        <Button
+                            fullWidth
+                            onClick={() => {
+                                setDrawerOpen(false);
+                                navigate("/become-seller");
+                            }}
+                            startIcon={<Storefront />}
+                            variant="outlined"
+                        >
+                            Become Seller
+                        </Button>
+                    )}
+                </div>
+            </Drawer> */}
+            {/* <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
+                <div className="w-[250px] p-4 space-y-4">
+                    <h2 className="text-lg font-bold mb-4">Categories</h2>
+                    {mainCategory.map((item) => (
+                        <div
+                            key={item.categoryId}
+                            onClick={() => setSelectedCategory(item.categoryId)}
+                            className={`cursor-pointer py-2 px-2 rounded ${selectedCategory === item.categoryId ? 'bg-gray-200 font-semibold' : 'hover:bg-gray-100'}`}
+                        >
+                            {item.name}
+                        </div>
+                    ))}
+                    <CategorySheet selectedCategory={selectedCategory} setShowCategorySheet={() => { }} />
+                    {!seller.profile && (
+                        <Button
+                            fullWidth
+                            onClick={() => {
+                                setDrawerOpen(false);
+                                navigate("/become-seller");
+                            }}
+                            startIcon={<Storefront />}
+                            variant="outlined"
+                        >
+                            Become Seller
+                        </Button>
+                    )}
+                </div>
+            </Drawer> */}
+
+            {/* <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
+                <div className="w-[250px] p-4 space-y-4">
+                    <h2 className="text-lg font-bold mb-4">Categories</h2>
+                    {mainCategory.map((item) => (
+                        <div
+                            key={item.categoryId}
+                            onClick={() => {
+                                setDrawerOpen(false);
+                                navigate(`/category/${item.categoryId}`);
+                            }}
+                            className="cursor-pointer py-2 px-2 hover:bg-gray-100 rounded"
+                        >
+                            {item.name}
+                        </div>
+                    ))}
+                    {!seller.profile && (
+                        <Button
+                            fullWidth
+                            onClick={() => {
+                                setDrawerOpen(false);
+                                navigate("/become-seller");
+                            }}
+                            startIcon={<Storefront />}
+                            variant="outlined"
+                        >
+                            Become Seller
+                        </Button>
+                    )}
+                </div>
+            </Drawer> */}
         </>
     )
 }

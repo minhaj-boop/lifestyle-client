@@ -1,4 +1,4 @@
-import { Box, Button, Grid, TextField } from '@mui/material'
+import { Box, Grid, TextField } from '@mui/material'
 import React from 'react'
 
 
@@ -14,12 +14,12 @@ const BecomeSellerStep2 = ({ formik }: any) => {
                     }}>
                         <TextField
                             fullWidth
-                            name="name"
+                            name="pickupAddress.name"
                             label="Name"
-                            value={formik.values.name}
+                            value={formik.values.pickupAddress.name}
                             onChange={formik.handleChange}
-                            error={formik.touched.name && Boolean(formik.errors.name)}
-                            helperText={formik.touched.name && formik.errors.name}
+                            error={formik.touched.pickupAddress?.name && Boolean(formik.errors.pickupAddress?.name)}
+                            helperText={formik.touched.pickupAddress?.name && formik.errors.pickupAddress?.name}
                         />
 
                     </Grid>
@@ -28,12 +28,12 @@ const BecomeSellerStep2 = ({ formik }: any) => {
                     }}>
                         <TextField
                             fullWidth
-                            name="mobile"
+                            name="pickupAddress.mobile"
                             label="Mobile"
-                            value={formik.values.mobile}
+                            value={formik.values.pickupAddress.mobile}
                             onChange={formik.handleChange}
-                            error={formik.touched.mobile && Boolean(formik.errors.mobile)}
-                            helperText={formik.touched.mobile && formik.errors.mobile}
+                            error={formik.touched.pickupAddress?.mobile && Boolean(formik.errors.pickupAddress?.mobile)}
+                            helperText={formik.touched.pickupAddress?.mobile && formik.errors.pickupAddress?.mobile}
                         />
 
                     </Grid>
@@ -42,12 +42,12 @@ const BecomeSellerStep2 = ({ formik }: any) => {
                     }}>
                         <TextField
                             fullWidth
-                            name="pincode"
+                            name="pickupAddress.pincode"
                             label="Pincode"
-                            value={formik.values.pincode}
+                            value={formik.values.pickupAddress.pincode}
                             onChange={formik.handleChange}
-                            error={formik.touched.pincode && Boolean(formik.errors.pincode)}
-                            helperText={formik.touched.pincode && formik.errors.pincode}
+                            error={formik.touched.pickupAddress?.pincode && Boolean(formik.errors.pickupAddress?.pincode)}
+                            helperText={formik.touched.pickupAddress?.pincode && formik.errors.pickupAddress?.pincode}
                         />
 
                     </Grid>
@@ -56,12 +56,12 @@ const BecomeSellerStep2 = ({ formik }: any) => {
                     }}>
                         <TextField
                             fullWidth
-                            name="address"
+                            name="pickupAddress.address"
                             label="Address"
-                            value={formik.values.address}
+                            value={formik.values.pickupAddress.address}
                             onChange={formik.handleChange}
-                            error={formik.touched.address && Boolean(formik.errors.address)}
-                            helperText={formik.touched.address && formik.errors.address}
+                            error={formik.touched.pickupAddress?.address && Boolean(formik.errors.pickupAddress?.address)}
+                            helperText={formik.touched.pickupAddress?.address && formik.errors.pickupAddress?.address}
                         />
 
                     </Grid>
@@ -70,12 +70,12 @@ const BecomeSellerStep2 = ({ formik }: any) => {
                     }}>
                         <TextField
                             fullWidth
-                            name="city"
+                            name="pickupAddress.city"
                             label="City"
-                            value={formik.values.city}
+                            value={formik.values.pickupAddress.city}
                             onChange={formik.handleChange}
-                            error={formik.touched.city && Boolean(formik.errors.city)}
-                            helperText={formik.touched.city && formik.errors.city}
+                            error={formik.touched.pickupAddress?.city && Boolean(formik.errors.pickupAddress?.city)}
+                            helperText={formik.touched.pickupAddress?.city && formik.errors.pickupAddress?.city}
                         />
 
                     </Grid>
@@ -84,12 +84,12 @@ const BecomeSellerStep2 = ({ formik }: any) => {
                     }}>
                         <TextField
                             fullWidth
-                            name="state"
+                            name="pickupAddress.state"
                             label="State"
-                            value={formik.values.state}
+                            value={formik.values.pickupAddress.state}
                             onChange={formik.handleChange}
-                            error={formik.touched.state && Boolean(formik.errors.state)}
-                            helperText={formik.touched.state && formik.errors.state}
+                            error={formik.touched.pickupAddress?.state && Boolean(formik.errors.pickupAddress?.state)}
+                            helperText={formik.touched.pickupAddress?.state && formik.errors.pickupAddress?.state}
                         />
 
                     </Grid>
@@ -98,12 +98,12 @@ const BecomeSellerStep2 = ({ formik }: any) => {
                     }}>
                         <TextField
                             fullWidth
-                            name="locality"
+                            name="pickupAddress.locality"
                             label="Locality"
-                            value={formik.values.locality}
+                            value={formik.values.pickupAddress.locality}
                             onChange={formik.handleChange}
-                            error={formik.touched.locality && Boolean(formik.errors.locality)}
-                            helperText={formik.touched.locality && formik.errors.locality}
+                            error={formik.touched.pickupAddress?.locality && Boolean(formik.errors.pickupAddress?.locality)}
+                            helperText={formik.touched.pickupAddress?.locality && formik.errors.pickupAddress?.locality}
                         />
 
                     </Grid>

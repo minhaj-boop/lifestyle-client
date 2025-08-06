@@ -7,6 +7,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { useAppDispatch, useAppSelector } from '../../../state/store';
+import { fetchTransactionBySeller } from '../../../state/seller/transactionSlice';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -47,6 +49,14 @@ const rows = [
 ];
 
 const TransactionTable = () => {
+
+    const dispatch = useAppDispatch()
+    const { transaction } = useAppSelector(store => store)
+
+    React.useEffect(() => {
+        dispatch(fetchTransactionBySeller(localStorage.getItem("jwt") || ""));
+    }, [])
+
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -59,14 +69,25 @@ const TransactionTable = () => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {rows.map((row) => (
-                        <StyledTableRow key={row.name}>
+                    {transaction.transactions.map((item) => (
+                        <StyledTableRow key={item.id}>
                             <StyledTableCell component="th" scope="row">
-                                {row.name}
+                                {item.date}
                             </StyledTableCell>
-                            <StyledTableCell >{row.calories}</StyledTableCell>
-                            <StyledTableCell >{row.fat}</StyledTableCell>
-                            <StyledTableCell >{row.carbs}</StyledTableCell>
+                            <StyledTableCell component="th" scope="row">
+                                {item.customer.email}
+                            </StyledTableCell>
+                            <StyledTableCell >
+                                {
+                                    item.order.id
+                                }
+                            </StyledTableCell>
+                            <StyledTableCell >
+                                {
+                                    item.order.totalSellingPrice
+                                }
+                            </StyledTableCell>
+                            {/* <StyledTableCell >{row.carbs}</StyledTableCell> */}
                         </StyledTableRow>
                     ))}
                 </TableBody>

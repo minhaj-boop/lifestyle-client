@@ -142,7 +142,7 @@ const CategorySheet = ({ selectedCategory, setShowCategorySheet }: any) => {
                     <div key={item.categoryId} className="bg-gray-50 rounded p-3">
                         <div
                             onClick={() => toggleAccordion(index)}
-                            className="text-primary-color font-semibold cursor-pointer flex justify-between items-center"
+                            className="text-black font-semibold cursor-pointer flex justify-between items-center"
                         >
                             {item.name}
                             {!isLarge && (
@@ -161,7 +161,7 @@ const CategorySheet = ({ selectedCategory, setShowCategorySheet }: any) => {
                                         setShowCategorySheet(false)
                                         navigate('/products/' + child.categoryId)
                                     }}
-                                    className="cursor-pointer hover:text-primary-color"
+                                    className="cursor-pointer text-black hover:text-primary-color"
                                 >
                                     {child.name}
                                 </li>

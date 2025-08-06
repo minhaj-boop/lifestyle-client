@@ -49,7 +49,7 @@ const ProductCard = ({ item }: { item: Product }) => {
                 >
 
                     {
-                        item.images.map((item, index) => <img className=' card-media object-top ' src={item} alt=""
+                        item.images.map((item, index) => <img key={index} className=' card-media object-top ' src={item} alt=""
                             style={{
                                 transform: `translateX(${(index - currentImage) * 100}%)`
                             }}

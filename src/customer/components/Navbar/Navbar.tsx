@@ -43,7 +43,7 @@ const Navbar = () => {
                         </div>
 
                         {/* Desktop Navigation */}
-                        <ul className='hidden lg:flex items-center font-medium text-gray-800'>
+                        <ul className='hidden lg:flex items-center font-medium text-[#8F1402]'>
                             {mainCategory.map((item) => <li
                                 key={item.categoryId}
                                 onMouseLeave={() => {
@@ -61,7 +61,7 @@ const Navbar = () => {
                     {/* Right Section */}
                     <div className='flex gap-2 sm:gap-3 lg:gap-6 items-center '>
                         <IconButton>
-                            <SearchIcon />
+                            <SearchIcon className='text-[#8F1402]' />
                         </IconButton>
 
                         {/* Auth / Seller / Login Button */}
@@ -83,10 +83,10 @@ const Navbar = () => {
 
                         {/* Wishlist & Cart */}
                         <IconButton onClick={() => navigate("/wishlist")}>
-                            <FavoriteBorder className='text-gray-700' sx={{ fontSize: 26 }} />
+                            <FavoriteBorder className='text-[#8F1402]' sx={{ fontSize: 26 }} />
                         </IconButton>
                         <IconButton onClick={() => navigate("/cart")}>
-                            <AddShoppingCart className='text-gray-700' sx={{ fontSize: 26 }} />
+                            <AddShoppingCart className='text-[#8F1402]' sx={{ fontSize: 26 }} />
                         </IconButton>
 
                         {/* Become Seller */}

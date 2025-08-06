@@ -35,10 +35,10 @@ const FilterSection = () => {
     return (
         <div className='-z-50 space-y-5 bg-white'>
             <div className='flex items-center justify-between h-[40px] px-9 lg:border-r'>
-                <p className="text-lg font-semibold">
+                <p className="text-lg text-primary-color font-semibold">
                     Filters
                 </p>
-                <Button onClick={clearAllFilters} size='small' className='text-teal-600'>
+                <Button onClick={clearAllFilters} size='small' className='text-primary-color'>
                     Clear All
                 </Button>
             </div>
@@ -52,7 +52,7 @@ const FilterSection = () => {
                             sx={{
                                 fontSize: "16px",
                                 fontWeight: "bold",
-                                color: teal[500],
+                                color: "#8F1402",
                                 paddingBottom: "14px"
                             }}
                         >Color</FormLabel>
@@ -76,7 +76,7 @@ const FilterSection = () => {
                         </RadioGroup>
                     </FormControl>
                     <div>
-                        <button onClick={handleColorToggle} className='text-primary-color cursor-pointer hover:text-teal-900 flex items-center '>
+                        <button onClick={handleColorToggle} className='text-primary-color cursor-pointer hover:text-secondary-color flex items-center '>
                             {expandColor ? "hide" : `+ ${color.length - 5} more`}
                         </button>
                     </div>
@@ -90,7 +90,7 @@ const FilterSection = () => {
                             sx={{
                                 fontSize: "16px",
                                 fontWeight: "bold",
-                                color: teal[500],
+                                color: "#8F1402",
                                 paddingBottom: "14px"
                             }}
                         >Price</FormLabel>
@@ -120,7 +120,7 @@ const FilterSection = () => {
                             sx={{
                                 fontSize: "16px",
                                 fontWeight: "bold",
-                                color: teal[500],
+                                color: "#8F1402",
                                 paddingBottom: "14px"
                             }}
                         >Discount</FormLabel>

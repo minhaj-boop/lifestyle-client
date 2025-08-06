@@ -1,3 +1,4 @@
+import React from 'react'
 import { AddPhotoAlternate, Close } from '@mui/icons-material'
 import { Button, CircularProgress, FormControl, FormHelperText, Grid, IconButton, InputLabel, MenuItem, Select, TextField } from '@mui/material'
 import { useFormik } from 'formik'
@@ -40,9 +41,15 @@ const getLevelThree = (category: string) => {
     }
 }
 
+type ProductFormProps = {
+    initialValues?: any;            // Optional, for editing
+    onSubmit: (values: any) => void;
+    onClose: () => void;
+    isEditMode?: boolean;
+};
 
-const AddProducts = () => {
 
+const ProductForm = ({ initialValues, onSubmit, onClose, isEditMode = true }: ProductFormProps) => {
     const [uploadImage, setUploadingImage] = useState(false);
 
 
@@ -55,10 +62,21 @@ const AddProducts = () => {
     };
 
 
-    const dispatch = useAppDispatch()
-
     const formik = useFormik({
-        initialValues: {
+        enableReinitialize: true,
+        initialValues: isEditMode && initialValues ? {
+            title: initialValues.title || '',
+            description: initialValues.description || '',
+            mrPrice: initialValues.mrPrice || '',
+            sellingPrice: initialValues.sellingPrice || '',
+            quantity: initialValues.stock || '', // assuming quantity comes from stock
+            color: initialValues.color || '',
+            images: initialValues.images || [],
+            category: initialValues.category?.parentCategory?.parentCategory?.categoryId || '',
+            category2: initialValues.category?.parentCategory?.categoryId || '',
+            category3: initialValues.category?.categoryId || '',
+            sizes: initialValues.sizes || []
+        } : {
             title: '',
             description: '',
             mrPrice: '',
@@ -72,26 +90,7 @@ const AddProducts = () => {
             sizes: []
         },
         onSubmit: async (values) => {
-            console.log(values);
-            // dispatch(createProduct({ request: values, jwt: localStorage.getItem('jwt') || '' }))
-            // formik.resetForm();
-            try {
-                const res = await dispatch(createProduct({ request: values, jwt: localStorage.getItem('jwt') || '' }));
-
-                // Optional: check `res.meta.requestStatus === 'fulfilled'` for Redux Toolkit
-                if (res.meta?.requestStatus === 'fulfilled') {
-                    setSnackbarMessage('Product added successfully!');
-                    setSnackbarSeverity('success');
-                    setSnackbarOpen(true);
-                    formik.resetForm();
-                } else {
-                    throw new Error('Something went wrong');
-                }
-            } catch (error) {
-                setSnackbarMessage('Failed to add product.');
-                setSnackbarSeverity('error');
-                setSnackbarOpen(true);
-            }
+            onSubmit(values)
         }
     })
 
@@ -109,7 +108,6 @@ const AddProducts = () => {
         updateImage.splice(index, 1);
         formik.setFieldValue("images", updateImage);
     }
-
     return (
         <div>
             <form onSubmit={formik.handleSubmit} className='space-y-4 p-4'>
@@ -136,7 +134,7 @@ const AddProducts = () => {
                         </label>
                         <div className='flex flex-wrap gap-2'>
                             {
-                                formik.values.images.map((image, index) => (
+                                formik.values.images.map((image: string, index: number) => (
                                     <div key={index} className='relative'>
                                         {image && (
                                             <img
@@ -176,7 +174,7 @@ const AddProducts = () => {
                             value={formik.values.title}
                             onChange={formik.handleChange}
                             error={formik.touched.title && Boolean(formik.errors.title)}
-                            helperText={formik.touched.title && formik.errors.title}
+                            helperText={formik.touched.title ? (formik.errors.title as string) : undefined}
                             required
                         />
                     </Grid>
@@ -191,7 +189,7 @@ const AddProducts = () => {
                             value={formik.values.description}
                             onChange={formik.handleChange}
                             error={formik.touched.description && Boolean(formik.errors.description)}
-                            helperText={formik.touched.description && formik.errors.description}
+                            helperText={formik.touched.description ? (formik.errors.description as string) : undefined}
                             required
                         />
                     </Grid>
@@ -205,7 +203,7 @@ const AddProducts = () => {
                             value={formik.values.mrPrice}
                             onChange={formik.handleChange}
                             error={formik.touched.mrPrice && Boolean(formik.errors.mrPrice)}
-                            helperText={formik.touched.mrPrice && formik.errors.mrPrice}
+                            helperText={formik.touched.mrPrice ? (formik.errors.mrPrice as string) : undefined}
                             required
                         />
                     </Grid>
@@ -219,7 +217,7 @@ const AddProducts = () => {
                             value={formik.values.sellingPrice}
                             onChange={formik.handleChange}
                             error={formik.touched.sellingPrice && Boolean(formik.errors.sellingPrice)}
-                            helperText={formik.touched.sellingPrice && formik.errors.sellingPrice}
+                            helperText={formik.touched.sellingPrice ? (formik.errors.sellingPrice as string) : undefined}
                             required
                         />
                     </Grid>
@@ -262,75 +260,8 @@ const AddProducts = () => {
                                 ))}
                             </Select>
                         </FormControl>
-                        {/* <FormControl
-                            fullWidth
-                            error={formik.touched.color && Boolean(formik.errors.color)}
-                            required
-                        >
-                            <InputLabel id="color-label">Color</InputLabel>
-                            <Select
-                                labelId='color-label'
-                                id='color'
-                                name='color'
-                                value={formik.values.color}
-                                onChange={formik.handleChange}
-                                label="Color"
-                            >
-                                <MenuItem >
-                                    <em>None</em>
-                                </MenuItem >
-                                {
-                                    color.map((color, index) => <MenuItem key={index} value={color.name}>
-                                        <div className='flex gap-3'>
-                                            <span
-                                                style={{
-                                                    backgroundColor: color.hex,
-                                                }}
-                                                className={`h-5 w-5 rounded-full ${color.name === 'White' ? 'border' : ''}`}
-                                            >
-                                            </span>
-                                            <p>{color.name}</p>
-                                        </div>
-                                    </MenuItem>)
-                                }
-                            </Select>
-                            {
-                                formik.touched.color && formik.errors.color && (
-                                    <FormHelperText>
-                                        {formik.errors.color}
-                                    </FormHelperText>
-                                )
-                            }
-                        </FormControl> */}
                     </Grid>
                     <Grid size={{ xs: 12, md: 4, lg: 3 }}>
-                        {/* <FormControl
-                            fullWidth
-                            error={formik.touched.sizes && Boolean(formik.errors.sizes)}
-                            required
-                        >
-                            <InputLabel id="sizes-label">Sizes</InputLabel>
-                            <Select
-                                labelId="sizes-label"
-                                id="sizes"
-                                name="sizes"
-                                value={formik.values.sizes}
-                                onChange={formik.handleChange}
-                                label="Sizes"
-                            >
-                                <MenuItem value="">
-                                    <em>None</em>
-                                </MenuItem>
-                                {sizes.map((size) => (
-                                    <MenuItem key={size} value={size}>
-                                        {size}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                            {formik.touched.sizes && formik.errors.sizes && (
-                                <FormHelperText>{formik.errors.sizes}</FormHelperText>
-                            )}
-                        </FormControl> */}
                         <FormControl
                             fullWidth
                             error={formik.touched.sizes && Boolean(formik.errors.sizes)}
@@ -347,10 +278,10 @@ const AddProducts = () => {
                                     const {
                                         target: { value },
                                     } = event;
-                                    formik.setFieldValue("sizes", typeof value === "string" ? value.split(",") : value);
+                                    formik.setFieldValue("sizes", typeof value === 'string' ? value.split(',') : value);
                                 }}
-                                renderValue={(selected) => (selected as string[]).join(", ")}
                                 label="Sizes"
+                                renderValue={(selected) => (selected as string[]).join(', ')}
                             >
                                 {sizes.map((size) => (
                                     <MenuItem key={size} value={size}>
@@ -435,7 +366,7 @@ const AddProducts = () => {
                         fullWidth
                         disabled={uploadImage}
                     >
-                        Add Product
+                        {isEditMode ? 'Update Product' : 'Add Product'}
                     </Button>
                 </Grid>
             </form>
@@ -453,4 +384,4 @@ const AddProducts = () => {
     )
 }
 
-export default AddProducts
+export default ProductForm

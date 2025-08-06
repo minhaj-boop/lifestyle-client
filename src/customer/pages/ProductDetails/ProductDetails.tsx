@@ -55,7 +55,7 @@ const ProductDetails = () => {
             <div className='flex gap-1 items-center'>
               <span>4</span>
               <StarIcon sx={{
-                color: teal[500],
+                color: "#8F1402",
                 fontSize: "17px",
 
               }} />
@@ -82,25 +82,25 @@ const ProductDetails = () => {
           <div className='mt-7 space-y-3 '>
             <div className='flex items-center gap-4'>
               <Shield sx={{
-                color: teal[500]
+                color: "#8F1402"
               }} />
               <p>Authentic & Quality Assured</p>
             </div>
             <div className='flex items-center gap-4'>
               <WorkspacePremium sx={{
-                color: teal[500]
+                color: "#8F1402"
               }} />
               <p>100% moneyback gurantee</p>
             </div>
             <div className='flex items-center gap-4'>
               <LocalShipping sx={{
-                color: teal[500]
+                color: "#8F1402"
               }} />
               <p>Free Shipping & Returns</p>
             </div>
             <div className='flex items-center gap-4'>
               <Wallet sx={{
-                color: teal[500]
+                color: "#8F1402"
               }} />
               <p>Pay on delivery</p>
             </div>

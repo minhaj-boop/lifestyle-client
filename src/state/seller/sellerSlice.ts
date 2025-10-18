@@ -33,6 +33,25 @@ export const createSeller = createAsyncThunk<Seller, Seller, {rejectValue:string
     }
 )
 
+// export const fetchAllSellers = createAsyncThunk<Seller[], {jwt: string, status?: string}, {rejectValue: string}>(
+//     "seller/fetchAllSelles",
+//     async ({jwt, status}, {rejectWithValue})=>{
+//         try {
+//             const response = await api.get(`${API_URL}/get/all`, {
+//                 headers: {
+//                     Authorization: `Bearer ${jwt}`,
+//                 },
+//                 params: status ? {status} : {},
+//             });
+//             console.log("All sellers fetched successfuly: ", response.data);
+//             return response.data;
+//         } catch (error:any) {
+//             const message = error.response?.data?.message || "Failed to fetch sellers.";
+//             return rejectWithValue(message);
+//         }
+//     }
+// )
+
 interface SellerState {
     seller: any[];
     selectedSeller: any | null;
@@ -81,6 +100,18 @@ const sellerSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         });
+        // builder.addCase(fetchAllSellers.pending, (state) => {
+        //     state.loading = true;
+        //     state.error = null;
+        // });
+        // builder.addCase(fetchAllSellers.fulfilled, (state, action) => {
+        //     state.loading = false;
+        //     state.seller = action.payload;
+        // });
+        // builder.addCase(fetchAllSellers.rejected, (state, action) => {
+        //     state.loading = false;
+        //     state.error = action.payload;
+        // });
     }
 })
 

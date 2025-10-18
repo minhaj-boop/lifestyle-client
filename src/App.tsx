@@ -25,6 +25,7 @@ import Wishlist from './customer/pages/Wishlist/Wishlist';
 import { createHomeCategories } from './state/customer/customerSlice';
 import { homeCategories } from './data/homeCategories';
 import ProtectedSellerRoute from './routes/ProtectedSellerRoute';
+import { ToastContainer } from 'react-toastify';
 
 
 function App() {
@@ -69,6 +70,7 @@ function App() {
           <Route path="/admin/*" element={<AdminDashboard />} />
           {/* Add more routes as needed */}
         </Routes>
+        <ToastContainer position="top-right" autoClose={3000} />
       </>
     </ThemeProvider>
 

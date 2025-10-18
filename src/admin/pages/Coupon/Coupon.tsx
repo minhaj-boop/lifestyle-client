@@ -9,6 +9,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Delete } from '@mui/icons-material';
+import { useAppDispatch, useAppSelector } from '../../../state/store';
+import { getAllCoupons } from '../../../state/admin/adminCouponSlice';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -49,37 +51,44 @@ const rows = [
 ];
 
 
-const accountStatus = [
-    { status: "PENDING VERIFICATION", title: "Pending Verification", description: "Your account is pending verification. Please wait for the admin to verify your account." },
-    { status: "ACTIVE", title: "Active", description: "Your account is active. You can start selling products." },
-    { status: "SUSPENDED", title: "Suspended", description: "Your account has been suspended. Please contact support for more information." },
-    { status: "DEACTIVATED", title: "Deactivated", description: "Your account has been deactivated. You can reactivate it by contacting support." },
-    { status: "BANNED", title: "Banned", description: "Your account has been banned. You cannot use this account anymore." },
-    { status: "CLOSED", title: "Closed", description: "Your account has been closed. You cannot use this account anymore." }
-];
+// const status = [
+//     { status: true, title: "ACTIVE", },
+//     { status: false, title: "INACTIVE", },
+// ];
 
 const Coupon = () => {
 
-    const [accoutStatus, setAccountStatus] = React.useState("ACTIVE");
+    const [couponStatus, setCouponStatus] = React.useState("ACTIVE");
+    const jwt = localStorage.getItem("jwt");
+
+    const dispatch = useAppDispatch()
+    const adminCoupon = useAppSelector((state) => state.coupon.coupons);
 
     const handleChange = (event: any) => {
-        setAccountStatus(event.target.value);
+        setCouponStatus(event.target.value);
     };
+
+    React.useEffect(() => {
+        if (jwt) {
+            dispatch(getAllCoupons({ jwt }));
+        }
+    }, [])
+
     return (
         <>
             <div className='pb-5 w-60'>
                 <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">Account Status</InputLabel>
+                    <InputLabel id="demo-simple-select-label">Coupon Status</InputLabel>
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
-                        value={accoutStatus}
-                        label="Account Status"
+                        value={couponStatus}
+                        label="Coupon Status"
                         onChange={handleChange}
                     >
-                        {accountStatus.map((status, index) =>
-                            <MenuItem key={index} value={status.status}>
-                                {status.title}
+                        {["ACTIVE", "INACTIVE"].map((status, index) =>
+                            <MenuItem key={index} value={status}>
+                                {status}
                             </MenuItem>
                         )}
                     </Select>

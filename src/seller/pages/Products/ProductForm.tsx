@@ -4,8 +4,6 @@ import { Button, CircularProgress, FormControl, FormHelperText, Grid, IconButton
 import { useFormik } from 'formik'
 import { uploadToCloudinary } from '../../../util/UploadToCloudnary'
 import { color } from '../../../data/filter/color'
-import { useAppDispatch } from '../../../state/store'
-import { createProduct } from '../../../state/seller/sellerPorductSlice'
 import { sizes } from '../../../data/filter/size'
 import { menLevelTwo } from '../../../data/category/levelTwo/menLevelTwo'
 import { menLevelThree } from '../../../data/category/levelThree/menLevelThree'
@@ -49,7 +47,7 @@ type ProductFormProps = {
 };
 
 
-const ProductForm = ({ initialValues, onSubmit, onClose, isEditMode = true }: ProductFormProps) => {
+const ProductForm = ({ initialValues, onSubmit, onClose, isEditMode }: ProductFormProps) => {
     const [uploadImage, setUploadingImage] = useState(false);
 
 

@@ -4,7 +4,9 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import { Dayjs } from 'dayjs';
 import { useFormik } from 'formik'
-import React from 'react'
+import { createCoupon } from '../../../state/admin/adminCouponSlice';
+import { useAppDispatch } from '../../../state/store';
+import { toast } from 'react-toastify';
 
 
 interface addNewCouponFormValues {
@@ -17,6 +19,9 @@ interface addNewCouponFormValues {
 
 const AddNewCouponForm = () => {
 
+    const dispatch = useAppDispatch();
+    const jwt = localStorage.getItem("jwt");
+
     const formik = useFormik<addNewCouponFormValues>({
         initialValues: {
             couponCode: '',
@@ -25,14 +30,30 @@ const AddNewCouponForm = () => {
             validityEndDate: null as Dayjs | null,
             minimumOrderAmount: 0,
         },
-        onSubmit: (values) => {
-
-            const formattedValues = {
-                ...values,
-                validityStartDate: values.validityStartDate ? values.validityStartDate.toISOString() : null,
-                validityEndDate: values.validityEndDate ? values.validityEndDate.toISOString() : null,
+        onSubmit: async (values, { resetForm }) => {
+            const request = {
+                code: values.couponCode,
+                discountPercentage: values.discountPercentage,
+                validityStartDate: values.validityStartDate?.toISOString(),
+                validityEndDate: values.validityEndDate?.toISOString(),
+                minimumOrderValue: values.minimumOrderAmount,
+            };
+            console.log(request);
+            if (!jwt) {
+                toast.error("Authentication failed. Please log in again.");
+                return;
             }
-            console.log(formattedValues);
+
+            const result = await dispatch(createCoupon({ request, jwt }))
+
+
+            if (createCoupon.fulfilled.match(result)) {
+                toast.success("Coupon created successfully!");
+                resetForm();
+            } else {
+                toast.error("Failed to create coupon. Please try again.");
+            }
+
         },
     })
 
@@ -45,7 +66,7 @@ const AddNewCouponForm = () => {
                         <Grid size={{ xs: 12, sm: 6 }}>
                             <TextField
                                 fullWidth
-                                name="code"
+                                name="couponCode"
                                 label="Code"
                                 value={formik.values.couponCode}
                                 onChange={formik.handleChange}
@@ -58,6 +79,7 @@ const AddNewCouponForm = () => {
                                 fullWidth
                                 name="discountPercentage"
                                 label="Discount Percentage"
+                                type='number'
                                 value={formik.values.discountPercentage}
                                 onChange={formik.handleChange}
                                 error={formik.touched.discountPercentage && Boolean(formik.errors.discountPercentage)}
@@ -69,7 +91,8 @@ const AddNewCouponForm = () => {
                                 sx={{ width: '100%' }}
                                 label="Validity Start Date"
                                 name='validityStartDate'
-                                onChange={formik.handleChange}
+                                // onChange={formik.handleChange}
+                                onChange={(value) => formik.setFieldValue('validityStartDate', value)}
                                 value={formik.values.validityStartDate}
                             />
                         </Grid>
@@ -78,7 +101,8 @@ const AddNewCouponForm = () => {
                                 sx={{ width: '100%' }}
                                 label="Validity End Date"
                                 name='validityEndDate'
-                                onChange={formik.handleChange}
+                                // onChange={formik.handleChange}
+                                onChange={(value) => formik.setFieldValue('validityEndDate', value)}
                                 value={formik.values.validityEndDate}
                             />
                         </Grid>
@@ -87,6 +111,7 @@ const AddNewCouponForm = () => {
                                 fullWidth
                                 name="minimumOrderAmount"
                                 label="Minimum Order Amount"
+                                type='number'
                                 value={formik.values.minimumOrderAmount}
                                 onChange={formik.handleChange}
                                 error={formik.touched.minimumOrderAmount && Boolean(formik.errors.minimumOrderAmount)}
@@ -94,7 +119,7 @@ const AddNewCouponForm = () => {
                             />
                         </Grid>
                         <Grid size={{ xs: 12 }}>
-                            <Button variant='contained' fullWidth sx={{ py: ".8rem" }}>Create Coupon</Button>
+                            <Button type='submit' variant='contained' fullWidth sx={{ py: ".8rem" }}>Create Coupon</Button>
                         </Grid>
                     </Grid>
                 </Box>

@@ -7,6 +7,7 @@ import GridTable from '../admin/pages/HomePage/GridTable'
 import ElectronicsTable from '../admin/pages/HomePage/ElectronicsTable'
 import ShopByCategoryTable from '../admin/pages/HomePage/ShopByCategoryTable'
 import Deal from '../admin/pages/HomePage/Deal'
+import Profile from '../admin/pages/Account/Profile'
 
 const AdminRoutes = () => {
     return (
@@ -19,6 +20,7 @@ const AdminRoutes = () => {
                 <Route path="/electronics-category" element={<ElectronicsTable />} />
                 <Route path="/shop-by-category" element={<ShopByCategoryTable />} />
                 <Route path="/deals" element={<Deal />} />
+                <Route path="/account" element={<Profile />} />
             </Routes>
         </div>
     )

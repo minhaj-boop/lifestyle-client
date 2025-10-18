@@ -31,7 +31,6 @@ const DrawerList = ({ menu, menu2, toggleDrawer }: DrawerListProps) => {
     return (
         <div className='h-full '>
             <div className='flex flex-col justify-between h-full w-[300px] border-r py-5'>
-
                 <div className='space-y-2'>
                     {
                         menu.map((item, index) => <div onClick={
@@ -46,7 +45,6 @@ const DrawerList = ({ menu, menu2, toggleDrawer }: DrawerListProps) => {
                                     }
                                 </ListItemIcon>
                                 <ListItemText primary={item.name} />
-
                             </div>
                         </div>)
                     }
@@ -68,12 +66,10 @@ const DrawerList = ({ menu, menu2, toggleDrawer }: DrawerListProps) => {
                                     }
                                 </ListItemIcon>
                                 <ListItemText primary={item.name} />
-
                             </div>
                         </div>)
                     }
                 </div>
-
             </div>
         </div>
     )

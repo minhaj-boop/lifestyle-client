@@ -66,8 +66,13 @@ const Navbar = () => {
 
                         {/* Auth / Seller / Login Button */}
                         {
-                            auth.user ? (
+                            auth.user?.role === "ROLE_CUSTOMER" ? (
                                 <Button onClick={() => navigate("/account/orders")} className='flex items-center gap-2'>
+                                    <Avatar sx={{ width: 29, height: 29 }} src='https://cdn.pixabay.com/photo/2018/03/20/04/49/natural-3242182_1280.jpg' />
+                                    <h1 className='font-semibold hidden lg:block '>{auth.user?.fullName}</h1>
+                                </Button>
+                            ) : auth.user?.role === "ROLE_ADMIN" ? (
+                                <Button onClick={() => navigate("/admin")} className='flex items-center gap-2'>
                                     <Avatar sx={{ width: 29, height: 29 }} src='https://cdn.pixabay.com/photo/2018/03/20/04/49/natural-3242182_1280.jpg' />
                                     <h1 className='font-semibold hidden lg:block '>{auth.user?.fullName}</h1>
                                 </Button>
@@ -149,96 +154,6 @@ const Navbar = () => {
                     )}
                 </div>
             </Drawer>
-
-            {/* <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
-                <div className="w-[250px] p-4 space-y-4">
-                    <h2 className="text-lg font-bold mb-4">Categories</h2>
-                    {mainCategory.map((item) => (
-                        <div
-                            key={item.categoryId}
-                            onClick={() => setSelectedCategory(item.categoryId)}
-                            className={`cursor-pointer py-2 px-2 rounded ${selectedCategory === item.categoryId ? 'bg-gray-200 font-semibold' : 'hover:bg-gray-100'}`}
-                        >
-                            {item.name}
-                        </div>
-                    ))}
-
-                    <CategorySheet selectedCategory={selectedCategory} setShowCategorySheet={() => { }} />
-
-                    {!seller.profile && (
-                        <Button
-                            fullWidth
-                            onClick={() => {
-                                setDrawerOpen(false);
-                                navigate("/become-seller");
-                            }}
-                            startIcon={<Storefront />}
-                            variant="outlined"
-                        >
-                            Become Seller
-                        </Button>
-                    )}
-                </div>
-            </Drawer> */}
-            {/* <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
-                <div className="w-[250px] p-4 space-y-4">
-                    <h2 className="text-lg font-bold mb-4">Categories</h2>
-                    {mainCategory.map((item) => (
-                        <div
-                            key={item.categoryId}
-                            onClick={() => setSelectedCategory(item.categoryId)}
-                            className={`cursor-pointer py-2 px-2 rounded ${selectedCategory === item.categoryId ? 'bg-gray-200 font-semibold' : 'hover:bg-gray-100'}`}
-                        >
-                            {item.name}
-                        </div>
-                    ))}
-                    <CategorySheet selectedCategory={selectedCategory} setShowCategorySheet={() => { }} />
-                    {!seller.profile && (
-                        <Button
-                            fullWidth
-                            onClick={() => {
-                                setDrawerOpen(false);
-                                navigate("/become-seller");
-                            }}
-                            startIcon={<Storefront />}
-                            variant="outlined"
-                        >
-                            Become Seller
-                        </Button>
-                    )}
-                </div>
-            </Drawer> */}
-
-            {/* <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
-                <div className="w-[250px] p-4 space-y-4">
-                    <h2 className="text-lg font-bold mb-4">Categories</h2>
-                    {mainCategory.map((item) => (
-                        <div
-                            key={item.categoryId}
-                            onClick={() => {
-                                setDrawerOpen(false);
-                                navigate(`/category/${item.categoryId}`);
-                            }}
-                            className="cursor-pointer py-2 px-2 hover:bg-gray-100 rounded"
-                        >
-                            {item.name}
-                        </div>
-                    ))}
-                    {!seller.profile && (
-                        <Button
-                            fullWidth
-                            onClick={() => {
-                                setDrawerOpen(false);
-                                navigate("/become-seller");
-                            }}
-                            startIcon={<Storefront />}
-                            variant="outlined"
-                        >
-                            Become Seller
-                        </Button>
-                    )}
-                </div>
-            </Drawer> */}
         </>
     )
 }

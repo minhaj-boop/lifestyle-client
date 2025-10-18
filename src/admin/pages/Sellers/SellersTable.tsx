@@ -8,6 +8,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { useAppDispatch, useAppSelector } from '../../../state/store';
+
+import { fetchAllSellers, updatSellerStatus } from '../../../state/admin/adminSellerSlice';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -49,7 +52,7 @@ const rows = [
 
 
 const accountStatus = [
-    { status: "PENDING VERIFICATION", title: "Pending Verification", description: "Your account is pending verification. Please wait for the admin to verify your account." },
+    { status: "PENDING_VERIFICATION", title: "Pending Verification", description: "Your account is pending verification. Please wait for the admin to verify your account." },
     { status: "ACTIVE", title: "Active", description: "Your account is active. You can start selling products." },
     { status: "SUSPENDED", title: "Suspended", description: "Your account has been suspended. Please contact support for more information." },
     { status: "DEACTIVATED", title: "Deactivated", description: "Your account has been deactivated. You can reactivate it by contacting support." },
@@ -59,11 +62,42 @@ const accountStatus = [
 
 const SellersTable = () => {
 
-    const [accoutStatus, setAccountStatus] = React.useState("ACTIVE");
+    const dispatch = useAppDispatch()
+    const jwt = localStorage.getItem("jwt");
+
+    const adminSellers = useAppSelector((state) => state.adminSellers.seller);
+
+    const [accoutStatus, setAccountStatus] = React.useState("PENDING_VERIFICATION");
 
     const handleChange = (event: any) => {
-        setAccountStatus(event.target.value);
+        const selectedStatus = event.target.value;
+        setAccountStatus(selectedStatus);
+
+        if (jwt) {
+            dispatch(fetchAllSellers({ jwt, status: selectedStatus }));
+        }
     };
+
+    React.useEffect(() => {
+        if (jwt) {
+            dispatch(fetchAllSellers({ jwt, status: accoutStatus }))
+        }
+    }, [dispatch, jwt])
+
+    const handleStatusUpdate = (sellerId: number, newStatus: string) => {
+        if (!jwt) return;
+
+        dispatch(updatSellerStatus({ jwt, sellerId, status: newStatus }))
+            .unwrap()
+            .then(() => {
+                // Optionally re-fetch sellers after status update
+                dispatch(fetchAllSellers({ jwt, status: accoutStatus }));
+            })
+            .catch((err) => {
+                console.error("Failed to update status:", err);
+            });
+    };
+
     return (
         <>
             <div className='pb-5 w-60'>
@@ -98,17 +132,30 @@ const SellersTable = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.map((row) => (
-                            <StyledTableRow key={row.name}>
+                        {adminSellers.map((seller, index) => (
+                            <StyledTableRow key={index}>
                                 <StyledTableCell component="th" scope="row">
-                                    {row.name}
+                                    {seller.sellerName}
                                 </StyledTableCell>
-                                <StyledTableCell >{row.calories}</StyledTableCell>
-                                <StyledTableCell align="right">{row.fat}</StyledTableCell>
-                                <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-                                <StyledTableCell align="right">{row.protein}</StyledTableCell>
-                                <StyledTableCell align="right">{row.protein}</StyledTableCell>
-                                <StyledTableCell align="right"><Button>Change Status</Button></StyledTableCell>
+                                <StyledTableCell >{seller.email}</StyledTableCell>
+                                <StyledTableCell align="right">{seller.mobile}</StyledTableCell>
+                                <StyledTableCell align="right">{seller.gstin}</StyledTableCell>
+                                <StyledTableCell align="right">{seller.businessDetails.businessName}</StyledTableCell>
+                                <StyledTableCell align="right">{seller.accountStatus}</StyledTableCell>
+                                <StyledTableCell align="right">
+                                    <FormControl size="small" fullWidth>
+                                        <Select
+                                            value={seller.accountStatus}
+                                            onChange={(e) => handleStatusUpdate(seller.id, e.target.value)}
+                                        >
+                                            {accountStatus.map((statusOption) => (
+                                                <MenuItem key={statusOption.status} value={statusOption.status}>
+                                                    {statusOption.title}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                </StyledTableCell>
                             </StyledTableRow>
                         ))}
                     </TableBody>

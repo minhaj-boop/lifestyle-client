@@ -304,33 +304,6 @@ const AddProducts = () => {
                         </FormControl> */}
                     </Grid>
                     <Grid size={{ xs: 12, md: 4, lg: 3 }}>
-                        {/* <FormControl
-                            fullWidth
-                            error={formik.touched.sizes && Boolean(formik.errors.sizes)}
-                            required
-                        >
-                            <InputLabel id="sizes-label">Sizes</InputLabel>
-                            <Select
-                                labelId="sizes-label"
-                                id="sizes"
-                                name="sizes"
-                                value={formik.values.sizes}
-                                onChange={formik.handleChange}
-                                label="Sizes"
-                            >
-                                <MenuItem value="">
-                                    <em>None</em>
-                                </MenuItem>
-                                {sizes.map((size) => (
-                                    <MenuItem key={size} value={size}>
-                                        {size}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                            {formik.touched.sizes && formik.errors.sizes && (
-                                <FormHelperText>{formik.errors.sizes}</FormHelperText>
-                            )}
-                        </FormControl> */}
                         <FormControl
                             fullWidth
                             error={formik.touched.sizes && Boolean(formik.errors.sizes)}
